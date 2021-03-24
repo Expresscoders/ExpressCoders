@@ -1,0 +1,19 @@
+<table>
+    <tr>
+    <th>surveyName</th>
+    <th>option1</th>
+    <th>option2</th>
+    </tr>
+    <tr *ngFor = "let survey of surveyList">
+        <td>{{survey.surveyName}}</td>
+        <td>{{survey.option1}}</td>
+        <td>{{survey.option2}}</td>
+        <td><button class=" btn btn-primary small"><i class="fas fa-edit"></i></button></td>
+        <td><button class=" btn btn-danger small"><i class="fas fa-trash"></i></button></td>
+
+    </tr>
+
+    <button><a routerLink = "/add">Add</a></button>
+
+ 
+</table>
