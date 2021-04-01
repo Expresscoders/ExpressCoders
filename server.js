@@ -4,6 +4,8 @@
  * Module dependencies.
  */
 
+ let configureMongoose = require('./config/mongoose')();
+
  let app = require('./app');
  let debug = require('debug')('project:server');
  let http = require('http');
