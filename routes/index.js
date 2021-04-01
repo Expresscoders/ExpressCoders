@@ -1,15 +1,5 @@
 let express = require('express');
 let router = express.Router();
-let mongoose =  require('mongoose')
-let db = "mongodb+srv://nikhil:MongoDB@mongodbserver.ytt43.mongodb.net/survey?retryWrites=true&w=majority"
-
-mongoose.connect(db, {useNewUrlParser: true,useUnifiedTopology: true},  (err)=>{
-  if(err){
-    console.log(err)
-  }else{
-    console.log("connected to mongodb")
-  }
-})
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
