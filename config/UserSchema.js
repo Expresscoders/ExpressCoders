@@ -1,14 +1,28 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;  
+const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 15;
 
 const UserSchema = new Schema({
-    username: { type: String, required: true, index: { unique: true } },
-    email: { type: String, required: true, index: { unique: true } },
-    password: { type: String, required: true }
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    email: {
+        type: String,
+        trim: true,
+        lowercase: true,
+        unique: true,
+        required: 'Email address is required',
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please provide a valid email address']
+    },
+    password: {
+        type: String,
+        required: true
+    }
 });
-     
+
 UserSchema.pre('save', (next) => {
 
     // only hash the password if it has been modified (or is new)
@@ -27,12 +41,12 @@ UserSchema.pre('save', (next) => {
         });
     });
 });
-     
+
 UserSchema.methods.comparePassword = (candidatePassword, cb) => {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
     });
 };
-     
+
 mongoose.model('User', UserSchema);
