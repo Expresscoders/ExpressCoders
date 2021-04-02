@@ -12,6 +12,13 @@ import { SurveysComponent } from './surveys/surveys.component';
 import { SurveysService } from './surveys.service';
 
 import { AddComponent } from './add/add.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialsModule } from './materials/materials.module';
+import { EditComponent } from './edit/edit.component';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -20,14 +27,17 @@ import { AddComponent } from './add/add.component';
     LoginComponent,
     HomeComponent,
     SurveysComponent,
-    AddComponent
+    AddComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialsModule
   ],
   providers: [SurveysService],
   bootstrap: [AppComponent]

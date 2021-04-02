@@ -1,19 +1,15 @@
-<table>
-    <tr>
-    <th>surveyName</th>
-    <th>option1</th>
-    <th>option2</th>
-    </tr>
-    <tr *ngFor = "let survey of surveyList">
-        <td>{{survey.surveyName}}</td>
-        <td>{{survey.option1}}</td>
-        <td>{{survey.option2}}</td>
-        <td><button class=" btn btn-primary small"><i class="fas fa-edit"></i></button></td>
-        <td><button class=" btn btn-danger small"><i class="fas fa-trash"></i></button></td>
 
-    </tr>
+<div class="container" class=" ml-auto mt-5">
+    <mat-card *ngFor = "let survey of surveyList">
+        <a mat-mini-fab color ="primary" class = "float-right" [routerLink] = "['/edit', survey._id]">
+        <mat-icon>edit</mat-icon></a>
+        <button mat-mini-fab color="warn" class=" float-right" (click)="deleteSurvey(survey)">
+            <mat-icon>delete</mat-icon></button><br>
+        <mat-card-title>{{survey.surveyName}}</mat-card-title>
+        <mat-radio-button>{{survey.option1}}</mat-radio-button><br>
+        <mat-radio-button>{{survey.option2}}</mat-radio-button>
+    </mat-card>
+    <button mat-raised-button color = "primary" routerLink = "/add">Add</button>
 
-    <button><a routerLink = "/add">Add</a></button>
 
- 
-</table>
+</div>

@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let surveyItem = require("../model/surveyModel")
+let mongoose = require("mongoose")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -36,8 +37,9 @@ router.post("/add", (req,res)=>{
 })
 
 //update
-router.put("/update/:id", (req, res)=>{
-  surveyItem.findOneAndUpdate({_id: req.params.id},{
+router.post("/update/:id", (req, res)=>{
+  let id = mongoose.Types.ObjectId(req.params.id)
+  surveyItem.findOneAndUpdate({_id: id},{
     $set:{
       surveyName : req.body.surveyName,
       option1 : req.body.option1,
@@ -52,9 +54,18 @@ router.put("/update/:id", (req, res)=>{
   })
 })
 
+//get Survey By ID
+router.get("/edit/:id",(req,res)=>{
+  let id = mongoose.Types.ObjectId(req.params.id)
+  surveyItem.findById(id, (err,item)=>{
+    res.json(item)
+  })
+})
+
 //delete
 router.delete("/delete/:id", (req,res)=>{
-  surveyItem.remove({_id: req.params.id}, (err,result)=>{
+  let id = mongoose.Types.ObjectId(req.params.id)
+  surveyItem.remove({_id: (id)}, (err,result)=>{
     if(err){
       res.json(err)
     }else{
@@ -62,4 +73,6 @@ router.delete("/delete/:id", (req,res)=>{
     }
   })
 })
+
+
 module.exports = router;

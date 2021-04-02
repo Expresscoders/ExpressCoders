@@ -21,6 +21,7 @@ export class AddComponent implements OnInit {
       this.http.post("http://localhost:3000/add",formData).subscribe(
       (res) => console.warn(res) ,
       (err) =>{console.log(err)}
+
     )
     //console.log(formData)
     

@@ -6,7 +6,7 @@ let logger = require('morgan');
 let cors = require("cors")
 let mongoose = require("mongoose")
 
-mongoose.connect("mongodb://localhost:27017/surveys",{ useNewUrlParser: true, useUnifiedTopology: true},(err,connected)=>{
+mongoose.connect("mongodb+srv://chaitanya:MongoDB@cluster0.e8ef8.mongodb.net/surveys?retryWrites=true&w=majority",{ useNewUrlParser: true, useUnifiedTopology: true},(err,connected)=>{
   if(err){
     console.log("err")
   }
