@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-//getting info from db
+/* getting info from db */
 router.get("/surveys", (req,res)=>{
   surveyItem.find((err,item)=>{
     if(err){
