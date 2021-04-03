@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const authSettings = require("../config/auth");
+const secure = require("../middleware/secure");
 const User = mongoose.model("User");
 
 const generateToken = (user) => {
@@ -47,3 +48,28 @@ exports.login = async (req, res, next) => {
         }).catch(next);
     });
 }
+
+exports.find = [
+    secure,
+    (req, res, next) => {
+        return res.status(200).json({
+            username: req.user.username,
+            email: req.user.email
+        });
+    }];
+
+exports.update = [
+    secure,
+    async (req, res, next) => {
+        //Delete the password value if there is any, as this is not the route 
+        //we would use to update user password.
+        delete req.body['password'];
+        return await req.user.set(req.body).save()
+            .then(
+                user => res.status(201).json({
+                    username: user.username,
+                    email: user.email
+                }),
+                err => res.status(400).json(err)
+            ).catch(next);
+    }];
