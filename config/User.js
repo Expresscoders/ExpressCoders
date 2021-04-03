@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 15;
+const uniqueValidator = require('mongoose-unique-validator');
 
 const UserSchema = new Schema({
     username: {
@@ -23,7 +24,9 @@ const UserSchema = new Schema({
     }
 });
 
-UserSchema.pre('save', (next) => {
+UserSchema.plugin(uniqueValidator);
+
+UserSchema.pre('save', function(next) {
 
     // only hash the password if it has been modified (or is new)
     if (!this.isModified('password')) return next();
@@ -42,11 +45,8 @@ UserSchema.pre('save', (next) => {
     });
 });
 
-UserSchema.methods.comparePassword = (candidatePassword, cb) => {
-    bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
+UserSchema.methods.comparePassword = function(candidatePassword) {
+    return bcrypt.compare(candidatePassword, this.password);
 };
 
-mongoose.model('User', UserSchema);
+mongoose.model('User', UserSchema,"users");
