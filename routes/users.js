@@ -11,5 +11,8 @@ router.post("/login", userController.login);
 //     return res.status(200).json({ message: 'Logout Success' });
 // })
 
+router.get("/", userController.find);
+
+router.put("/", userController.update);
 
 module.exports = router;
