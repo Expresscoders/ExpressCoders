@@ -7,6 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { SurveysComponent } from './surveys/surveys.component';
 
+
+//Routing to the website
 const routes: Routes = [
   {
     path:"",

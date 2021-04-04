@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormsModule,ReactiveFormsModule} from '@angular/forms'
+import { Router } from '@angular/router';
 import { surveyModel } from '../survey';
 import{SurveysService} from "../surveys.service"
 
@@ -13,18 +14,19 @@ export class AddComponent implements OnInit {
   surveyItem:surveyModel[] = []
   postUrl = "http://localhost:3000/add"
 
-  constructor(private form: FormsModule, private surveyService:SurveysService, private http:HttpClient) { }
+  constructor(private form: FormsModule, private surveyService:SurveysService, private http:HttpClient, private route:Router) { }
   ngOnInit() {
   }
- 
+
+  //sending Data entered in form to the backend api using http
   onSubmit(formData){
-      this.http.post("http://localhost:3000/add",formData).subscribe(
-      (res) => console.warn(res) ,
+      this.surveyService.createSurvey(formData).subscribe(
+      (res) => this.route.navigate(["/surveys"]) ,
       (err) =>{console.log(err)}
 
     )
-    //console.log(formData)
-    
+
+
   }
 
 }

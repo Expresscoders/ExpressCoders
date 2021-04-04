@@ -20,7 +20,7 @@ export class EditComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.surveyId = params.id;
     });
-    //this.initializeForm();
+
 
   }
 
@@ -28,15 +28,7 @@ export class EditComponent implements OnInit {
     this.getSurveyById(this.surveyId)
   }
 
-  // To Initialize Form
-//  initializeForm() {
-//   this.frmGroup = this.formBuilder.group({
-//   surveyName: ['', [Validators.required]],
-//   option1: ['', [Validators.required]],
-//   option2: ['', [Validators.required]],
 
-//   });
-//   }
 
 
   getSurveyById(surveyId){
@@ -55,7 +47,7 @@ export class EditComponent implements OnInit {
 
   onSubmit(formData){
     return this.service.updateSurvey(this.surveyId,formData).subscribe(
-      res => this.router.navigate
+      res => this.router.navigate(['/surveys'])
     )
 
   }
