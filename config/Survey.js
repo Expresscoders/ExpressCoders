@@ -103,7 +103,7 @@ SurveyAnswerSchema = new Schema({
             message: _ => "Incompatible set of survey answers and questions. All survey questions must be answered, " +
                 "and the type of a single answer must match that of its corresponding question. " +
                 "Multi-choice answers must be numbers that represent indices in the array of possible response choices. " + 
-                "Short ansers must be pure text",
+                "Short answers must be pure text",
         },
         required: true
     },

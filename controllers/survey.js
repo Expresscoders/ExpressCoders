@@ -15,7 +15,7 @@ exports.create = [
     }
 ];
 
-exports.find = async (req, res, next) => {
+exports.index = async (req, res, next) => {
     const now = Date.now()
     return await Survey.find({
         $and: [
@@ -40,7 +40,9 @@ exports.participate = async (req, res, next) => {
                             err => res.status(400).json(err)
                         );
                 } else {
-                    const msg = survey.expiryDate < now ? "This survey has expired" : "This survey has not yet been published";
+                    const msg = survey.expiryDate < now ?
+                        "This survey has expired" : 
+                        "This survey has not yet been published";
                     return res.status(400).json({ error: msg });
                 }
             } else {
@@ -58,7 +60,7 @@ exports.userSurveys = [
     }
 ];
 
-exports.statistics = [
+exports.find = [
     secure,
     async (req, res, next) => {
         return await Survey.findOne({ _id: req.params.id })

@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Survey = mongoose.model("Survey");
 const surveyController = require("../controllers/survey");
 
-router.get("/", surveyController.find);
+router.get("/", surveyController.index);
 
 router.get("/user", surveyController.userSurveys);
 
@@ -12,6 +12,6 @@ router.post("/", surveyController.create);
 
 router.post("/:id/participate", surveyController.participate);
 
-router.get("/:id/statistics", surveyController.statistics);
+router.get("/:id", surveyController.find);
 
 module.exports = router;
