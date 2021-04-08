@@ -28,7 +28,7 @@ exports.index = async (req, res, next) => {
 };
 
 exports.participate = async (req, res, next) => {
-    return await Survey.findOne({ _id: req.params['id'] })
+    return await Survey.findOne({ _id: req.params.id })
         .then(survey => {
             if (survey) {
                 const now = Date.now();
