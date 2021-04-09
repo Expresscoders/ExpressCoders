@@ -34,7 +34,7 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     //Find user by email
     return await User.findOne({ email: req.body.email }).then(user => {
-        const invalidCredentialsMsg = { errorMessage: "username or password is incorrect." };
+        const invalidCredentialsMsg = { error: "username or password is incorrect." };
         if (!user) {
             return res.status(400).json(invalidCredentialsMsg);
         }
