@@ -9,7 +9,7 @@ router.get("/user", surveyController.userSurveys);
 
 router.post("/", surveyController.create);
 
-router.post("/:id/participate", surveyController.participate);
+router.post("/:id/respond", surveyController.participate);
 
 router.get("/:id", surveyController.find);
 

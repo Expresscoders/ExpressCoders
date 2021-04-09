@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const secure = require("../middleware/secure");
 const Survey = mongoose.model("Survey");
-const SurveyAnswer = mongoose.model("SurveyAnswer");
+const SurveyResponse = mongoose.model("SurveyResponse");
 
 exports.create = [
     secure,
@@ -34,7 +34,7 @@ exports.participate = async (req, res, next) => {
                 const now = Date.now();
                 if (survey.expiryDate >= now && survey.publishDate <= now) {
                     req.body["surveyId"] = survey._id;
-                    return new SurveyAnswer(req.body).save()
+                    return new SurveyResponse(req.body).save()
                         .then(
                             answer => res.status(201).json(answer),
                             err => res.status(400).json(err)
@@ -66,11 +66,13 @@ exports.find = [
         return await Survey.findOne({ _id: req.params.id })
             .then(survey => {
                 if (survey && survey.authorId.equals(req.user._id)) {
-                    return SurveyAnswer.find({ surveyId: survey._id })
-                        .then(answers => res.status(200).json({
-                            survey: survey,
-                            answers: answers
-                        }))
+                    return SurveyResponse.find({ surveyId: survey._id })
+                        .then(responses => {
+                            res.status(200).json({
+                                survey : survey,
+                                responses : responses
+                            })
+                        })
                 } else if (survey) {
                     return res.status(403).json(null)
                 } else {
