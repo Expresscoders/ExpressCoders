@@ -15,10 +15,14 @@ let SurveySchema = new Schema({
         type:String, 
         required: true
     },
-    token:{
-        type: String,
-        required:true
+    email:{
+        type: String
+    },
+    count:{
+        type:Number,
+        default:0
     }
+
 
 })
 

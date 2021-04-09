@@ -3,21 +3,26 @@ let router = express.Router();
 let jwt = require("jsonwebtoken")
 let surveyItem = require("../model/surveyModel")
 let userModel = require("../model/userModel")
-//let analysisItem = require("../model/analysisModel")
+let decode = require("jwt-decode")
+
+
 let mongoose = require("mongoose");
 const { request } = require('express');
 const { find } = require('../model/analysisModel');
+const { default: jwtDecode } = require('jwt-decode');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express Coders' });
 });
 
+//verify Token
 function verifyToken(req,res,next){
   if(!req.headers.authorization){
     return res.status(401).send("Unauthorized request")
   }else{
-    let token = req.headers.authorization.split(' ')[1]
+    // let token = req.headers.authorization
+    let token = req.headers.authorization
     if(token === 'null'){
       return res.status(401).send("Unauthorized request")
     }else{
@@ -33,6 +38,20 @@ function verifyToken(req,res,next){
 }
 
 
+//decoding function
+const decodingJWT = (token) => {
+  
+  if(token !== null || token !== undefined){
+   const base64String = token.split(".")[1];
+   const decodedValue = JSON.parse(Buffer.from(base64String,
+                        'base64').toString('ascii'));
+   console.log(decodedValue);
+   return decodedValue;
+  }
+  return null;
+}
+
+
 //getting info from db
 router.get("/survey", (req,res)=>{
   surveyItem.find((err,item)=>{
@@ -45,16 +64,18 @@ router.get("/survey", (req,res)=>{
   })
 })
 
+
+
 //add
-router.post("/add", (req,res)=>{
+router.post("/add",verifyToken, (req,res)=>{
+  let token = req.headers.authorization
+  let decodedValue = decodingJWT(token);
+  console.log("Decoded value", decodedValue)
   let newsurveyItem = new surveyItem({
     surveyName: req.body.surveyName,
     option1: req.body.option1,
     option2: req.body.option2,
-    userModel:{
-      email: req.body.email
-    }
-    
+    email:decodedValue.email
   })
   newsurveyItem.save((err,item)=>{
     if(err){
@@ -107,13 +128,29 @@ router.delete("/delete/:id",verifyToken, (req,res)=>{
 
 //analysis Data
 router.get("/userstats",(req,res)=>{
+  let token = req.headers.authorization
+  decodedToken = decode(token)
 
-  surveyItem.find(({"token":req.headers.authorization.split(" ")[1]}),(err,item)=>{
+  surveyItem.find(({email:decodedToken.email}),(err,item)=>{
     if(err){
       console.log(err)
     }else{
       //let data = item.surveyName
       res.json(item)
+    }
+  })
+})
+
+// counter
+router.get("/counter/:id",(req,res)=>{
+  let id = mongoose.Types.ObjectId(req.params.id)
+  surveyItem.findByIdAndUpdate({_id:id},{$inc:{count:1}},(err,item)=>{
+    if(err){
+      console.log("This is Error")
+      res.status(500)
+      console.log(err)
+    }else{
+      res.json({count: item.count})
     }
   })
 })
