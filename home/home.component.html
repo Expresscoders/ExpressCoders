@@ -1,0 +1,14 @@
+﻿<h2>Welcome to SurveyApp!</h2>
+<hr>
+<br>
+<h4>Our Available Surveys</h4>
+<div *ngIf="!surveys.length" class="alert alert-warning" role="alert" style="margin-top: 30px">
+    We don't have any surveys as of now, please come back after some time.
+</div>
+<div *ngFor="let survey of surveys" class="card w-75 m-5">
+    <div class="card-body">
+        <h5 class="card-title">{{survey.SurveyTitle}}</h5>
+        <p class="card-text">Total Questions: <span class="badge badge-success">{{ survey.Questions.length }}</span></p>
+        <a href="#" class="btn btn-outline-info" [routerLink]="['/take_survey', survey._id]">Take This Survey</a> <span class="badge badge-info" style="float: right; margin-bottom: -20px">Published {{survey.CreatedDate | date}}</span>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Hello {{currentUser.username}}!</h1>
+        <p>You're logged in to SurveyApp!</p>
+    </div>
+  </div>
+
+<br>
+<h2>Previously Created Surveys:</h2>
+<h4><a href="#" routerLink="/create_survey/">+ New Survey</a></h4>
+
+<div *ngIf="!createdSurveys.length" class="alert alert-warning" role="alert" style="margin-top: 30px">
+    You don't have any surveys created, <a href="#" routerLink="/create_survey/" class="alert-link">create one</a>.
+</div>
+
+<div *ngFor="let survey of createdSurveys" class="card w-75 m-5">
+    <div class="card-body">
+        <h3 class="card-title">{{survey.SurveyTitle}}</h3>
+        <p class="card-text">Total Questions: <span class="badge badge-success">{{ survey.Questions.length }}</span></p>
+        <button class="btn btn-outline-danger btn-sm" (click)="deleteSurvey(survey._id)" >Delete</button> <span class="badge badge-info" style="float: right; margin-bottom: -20px">Published {{survey.CreatedDate | date}}</span>
+    </div>
+    <div class="card-footer">
+        <h3>Stats:</h3>
+        <p>Responses: <span class="badge badge-info">{{survey.responses}}</span></p>
+    </div>
+</div>
+

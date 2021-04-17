@@ -1,0 +1,16 @@
+<div class="d-flex justify-content-center">
+    <div class="card">
+        <h5 class="card-header">Profile Details</h5>
+        <div class="card-body" *ngIf='!loadingProfile'>
+          <h5 class="card-title">Registered: {{ profileDetails.Registered | date:'yyyy-MM-dd HH:mm:ss' }}</h5>
+          <h5 class="card-title">Email: {{ profileDetails.Email }}</h5>
+          <h5 class="card-title">Username: {{ profileDetails.Username }}</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" routerLink="/logout" class="btn btn-primary">Logout</a>
+        </div>
+        <div class="card-body" *ngIf='loadingProfile'>
+            <h5 class="card-title">Loading Profile...</h5>
+            <a href="#" routerLink="/logout" class="btn btn-primary">Logout</a>
+          </div>
+      </div>
+</div>

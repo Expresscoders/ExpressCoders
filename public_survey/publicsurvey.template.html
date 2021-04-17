@@ -1,0 +1,63 @@
+<form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
+    <div class="card m-3">
+        <h5 class="card-header">{{ activeSurvey.SurveyTitle }}</h5>
+            <div class="form-group col-6">
+            <label>Full Name</label>
+            <input type="text" formControlName="fullName" class="form-control"  />
+            <label>Email</label>
+            <input type="email" formControlName="email" class="form-control" />
+            </div>
+
+        <div class="card-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Number of Questions {{ activeSurvey.Questions.length }}</label>
+                </div>
+            </div>
+        </div>
+        <div *ngFor="let q of t.controls; let i = index" class="list-group list-group-flush">
+            <div class="list-group-item">
+                <h5 class="card-title">Question {{i + 1}}. {{ activeSurvey.Questions[i].Title }}</h5>
+                <div *ngIf="activeSurvey.Questions[i].IsAgreeDisagree" [formGroup]="q">
+                    <div class="form-group">
+                        <input type="radio" value="agree" formControlName="agree_disagree" class="form-control float-left" style="width: 30px; margin-top: -6px;" />Agree
+                        <br><br>
+                        <input type="radio" value="disagree" formControlName="agree_disagree" class="form-control float-left" style="width: 30px; margin-top: -6px;" />Disagree
+                    </div>
+                    <div *ngIf="isSubmited && q.controls.agree_disagree.errors" class="invalid-feedback">
+                        <div *ngIf="q.controls.agree_disagree.errors">Please select one of these.</div>
+                    </div>
+                </div>
+                <div *ngIf="activeSurvey.Questions[i].IsMultiChoice" [formGroup]="q" >
+                    <div class="form-group">
+                        <div class="form-check">
+                                {{ activeSurvey.Questions[i].Choices[0] }}<input type="checkbox" formControlName="mc1Value" class="form-control">
+                          </div>
+                          <div class="form-check">
+                                {{ activeSurvey.Questions[i].Choices[1] }}<input type="checkbox" formControlName="mc2Value" class="form-control">
+                          </div>
+                          <div class="form-check">
+                                {{ activeSurvey.Questions[i].Choices[2] }}<input type="checkbox" formControlName="mc3Value" class="form-control">
+                          </div>
+                          <div class="form-check">
+                                <p>{{ activeSurvey.Questions[i].Choices[3] }}<input type="checkbox" formControlName="mc4Value" class="form-control">
+                          </div> 
+                    </div>
+                </div>
+                <div *ngIf="activeSurvey.Questions[i].IsShortAnswer" [formGroup]="q" style="text-align: left;">
+                    <div class="form-group">
+                        Answer <input type="text" placeholder="Provide your short answer.." formControlName="answer" class="form-control float-left">
+                    </div>
+                    <div *ngIf="isSubmited && q.controls.answer.errors" class="invalid-feedback">
+                        <div *ngIf="q.controls.answer.errors">Please input an answer.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-info mr-1" (ngSubmit)="onSubmit()" >Submit</button>
+            <button class="btn btn-secondary mr-1" type="reset" (click)="onReset()">Reset</button>
+            <a href="#" class="btn btn-secondary" type="button" routerLink="/" (click)="onClear()">Exit</a>
+        </div>
+    </div>
+</form>
